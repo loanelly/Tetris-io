@@ -1,8 +1,8 @@
 import pygame
 import random
-
+#https://github.com/loanelly
 pygame.init()
-
+#https://github.com/loanelly
 W, H, B = 850, 760, 30
 PW, PH = 300, 660
 TX, TY = (W - PW) // 2, H - PH - 20
