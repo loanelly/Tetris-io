@@ -1,14 +1,14 @@
 import pygame, random, math, array
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init(); pygame.font.init()
-
+#https://github.com/loanelly
 W, H, B = 850, 760, 30
 PW, PH = 300, 660
 TX, TY = (W - PW) // 2, H - PH - 20
 F_T = pygame.font.SysFont('segoeui', 60, bold=True)
 F_M = pygame.font.SysFont('segoeui', 32, bold=True)
 F_X = pygame.font.SysFont('segoeui', 24)
-
+#https://github.com/loanelly
 # Глобальные настройки звука
 music_on = True
 sfx_on = True
@@ -24,20 +24,20 @@ SHAPES = {
     'T': [[(-1,0), (0,0), (1,0), (0,1)], [(0,-1), (0,0), (0,1), (1,0)], [(-1,0), (0,0), (1,0), (0,-1)], [(-1,0), (0,0), (0,-1), (0,1)]]
 }
 COLORS = {k: c for k, c in zip(SHAPES.keys(), [(0,255,0), (255,0,0), (0,255,255), (255,255,0), (255,165,0), (0,0,255), (128,0,128)])}
-
+#https://github.com/loanelly
 class Piece:
     def __init__(self, name):
         self.name = name
         self.x, self.y, self.rotation, self.color = 5, 1, 0, COLORS[name]
     def pos(self):
         return [(self.x + dx, self.y + dy) for dx, dy in SHAPES[self.name][self.rotation % len(SHAPES[self.name])]]
-
+#https://github.com/loanelly
 def valid(p, locked, dx=0, dy=0, dr=0):
     p.x += dx; p.y += dy; p.rotation += dr
     ok = all(0 <= x < 10 and y < 22 and (x, y) not in locked for x, y in p.pos())
     p.x -= dx; p.y -= dy; p.rotation -= dr
     return ok
-
+#https://github.com/loanelly
 def clear_rows(win, locked):
     cl = [y for y in range(22) if sum(1 for x in range(10) if (x, y) in locked) == 10]
     if cl:
@@ -51,24 +51,24 @@ def clear_rows(win, locked):
             for x in range(10): del locked[(x, y)]
             locked.update({(kx, ky + 1 if ky < y else ky): c for (kx, ky), c in locked.copy().items() if ky != y})
     return len(cl)
-
+#https://github.com/loanelly
 def draw_prev(surface, p, text, sx):
     surface.blit(F_X.render(text, True, (255,255,255)), (sx, TY + 85))
     if p: [pygame.draw.rect(surface, p.color, (sx + (dx+1)*B, TY + 140 + dy*B, B, B)) for dx, dy in SHAPES[p.name][0]]
-
+#https://github.com/loanelly
 def run_menu(win):
     items, sel = ["1. Classic Mode", "2. Speed Up Mode", "3. Settings", "4. Controls Info", "5. Exit"], 0
     while True:
         win.fill((15, 15, 18))
         title = F_T.render("TETRIS MENU", True, (255, 255, 255))
         win.blit(title, (W // 2 - title.get_width() // 2, H // 4 - 50))
-        
+        #https://github.com/loanelly
         for idx, item in enumerate(items):
             color = (220, 50, 50) if idx == sel else (180, 180, 180)
             text = F_M.render(item, True, color)
             # ИСПРАВЛЕНО: Центрирование по ширине экрана
             win.blit(text, (W // 2 - text.get_width() // 2, H // 2 - 30 + idx * 50))
-            
+            #https://github.com/loanelly
         pygame.display.update()
         for e in pygame.event.get():
             if e.type == pygame.QUIT: return "exit"
@@ -77,7 +77,7 @@ def run_menu(win):
                 if e.key in [pygame.K_DOWN, pygame.K_s]: sel = (sel + 1) % len(items)
                 if e.key in [pygame.K_RETURN, pygame.K_SPACE]: 
                     return ["classic", "speedup", "settings", "controls", "exit"][sel]
-
+#https://github.com/loanelly
 def run_settings(win):
     global music_on, sfx_on
     sel = 0
@@ -85,7 +85,7 @@ def run_settings(win):
         win.fill((15, 15, 18))
         title = F_T.render("SETTINGS", True, (255, 255, 255))
         win.blit(title, (W // 2 - title.get_width() // 2, H // 4 - 50))
-        
+        #https://github.com/loanelly
         items = [
             f"Music: {'ON' if music_on else 'OFF'}",
             f"Sound Effects: {'ON' if sfx_on else 'OFF'}",
